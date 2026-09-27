@@ -19,6 +19,7 @@
       <a href="#why">なぜ書いたか</a>
       <a href="#ask">期待したいこと</a>
       <a href="#reason">大事な理由</a>
+      <a href="#feedback">ご意見番</a>
     </nav>
   </div>
 </header>
@@ -129,6 +130,26 @@
     </div>
   </section>
 
+  <section id="feedback" class="feedback">
+    <div class="wrap">
+      <span class="tag">YOUR VOICE</span>
+      <h2>ご意見番</h2>
+      <p class="prose">
+        このページについてのご意見・ご感想があれば、お気軽にお寄せください。
+      </p>
+      <form class="feedback-form" id="feedback-form">
+        <label for="fb-name">お名前</label>
+        <input type="text" id="fb-name" name="name" placeholder="お名前（ニックネーム可）" autocomplete="name">
+
+        <label for="fb-message">ご意見</label>
+        <textarea id="fb-message" name="message" rows="5" placeholder="ご意見・ご感想をどうぞ" required></textarea>
+
+        <button type="submit">送信する</button>
+        <p class="feedback-thanks" id="feedback-thanks" hidden>送信ありがとうございました！（※現在はモックのため、実際には送信されません）</p>
+      </form>
+    </div>
+  </section>
+
 </main>
 
 <footer>
@@ -136,6 +157,14 @@
     Made with hope, not anger. / 2026
   </div>
 </footer>
+
+<script>
+  document.getElementById('feedback-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('feedback-thanks').hidden = false;
+    this.reset();
+  });
+</script>
 
 </body>
 </html>

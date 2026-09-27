@@ -365,6 +365,84 @@ h2 .accent {
   margin-right: auto;
 }
 
+/* ---------- feedback ---------- */
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin-top: 32px;
+}
+
+.feedback-form label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-dim);
+  margin-bottom: 8px;
+}
+
+.feedback-form label + label {
+  margin-top: 20px;
+}
+
+.feedback-form input,
+.feedback-form textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  resize: vertical;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.feedback-form input::placeholder,
+.feedback-form textarea::placeholder {
+  color: rgba(202, 189, 242, 0.45);
+}
+
+.feedback-form input:focus,
+.feedback-form textarea:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(53, 230, 255, 0.18);
+}
+
+.feedback-form button {
+  align-self: flex-start;
+  margin-top: 24px;
+  font-family: "Bungee", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--bg);
+  background: var(--yellow);
+  border: none;
+  border-radius: 999px;
+  padding: 12px 32px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--pink);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feedback-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0 var(--pink);
+}
+
+.feedback-form button:active {
+  transform: translateY(0);
+  box-shadow: 2px 2px 0 var(--pink);
+}
+
+.feedback-thanks {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--cyan);
+}
+
 /* ---------- footer ---------- */
 
 footer {
