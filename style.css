@@ -443,6 +443,75 @@ h2 .accent {
   color: var(--cyan);
 }
 
+.feedback-error {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--pink);
+}
+
+.feedback-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.feedback-list-wrap {
+  max-width: 640px;
+  margin-top: 56px;
+}
+
+.feedback-list-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-dim);
+  margin: 0 0 20px;
+}
+
+.feedback-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feedback-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.feedback-item-message {
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.feedback-item-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+
+.feedback-item-name {
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+.feedback-list-empty {
+  font-size: 14px;
+  color: var(--ink-dim);
+}
+
+.feedback-list-error {
+  font-size: 14px;
+  color: var(--pink);
+}
+
 /* ---------- footer ---------- */
 
 footer {

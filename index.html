@@ -145,8 +145,16 @@
         <textarea id="fb-message" name="message" rows="5" placeholder="ご意見・ご感想をどうぞ" required></textarea>
 
         <button type="submit">送信する</button>
-        <p class="feedback-thanks" id="feedback-thanks" hidden>送信ありがとうございました！（※現在はモックのため、実際には送信されません）</p>
+        <p class="feedback-thanks" id="feedback-thanks" hidden>送信ありがとうございました！</p>
+        <p class="feedback-error" id="feedback-error" hidden>送信に失敗しました。時間をおいて再度お試しください。</p>
       </form>
+
+      <div class="feedback-list-wrap">
+        <h3 class="feedback-list-title">みんなの声</h3>
+        <ul class="feedback-list" id="feedback-list"></ul>
+        <p class="feedback-list-empty" id="feedback-list-empty" hidden>まだ投稿はありません。最初のご意見をお寄せください。</p>
+        <p class="feedback-list-error" id="feedback-list-error" hidden>ご意見の読み込みに失敗しました。</p>
+      </div>
     </div>
   </section>
 
@@ -158,12 +166,90 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-  document.getElementById('feedback-form').addEventListener('submit', function (e) {
+  const SUPABASE_URL = 'https://wlvahehrujpvbdtmavnm.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_IQy38cCHHbncXJH8P2H2Cg_Iy53A1wS';
+
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const form = document.getElementById('feedback-form');
+  const thanksEl = document.getElementById('feedback-thanks');
+  const errorEl = document.getElementById('feedback-error');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  const listEl = document.getElementById('feedback-list');
+  const listEmptyEl = document.getElementById('feedback-list-empty');
+  const listErrorEl = document.getElementById('feedback-list-error');
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+    });
+  }
+
+  function formatDate(isoString) {
+    const d = new Date(isoString);
+    return d.toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  }
+
+  async function loadFeedbackList() {
+    listErrorEl.hidden = true;
+
+    const { data, error } = await supabaseClient
+      .from('feedback')
+      .select('name, message, created_at')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error(error);
+      listErrorEl.hidden = false;
+      return;
+    }
+
+    listEl.innerHTML = '';
+    listEmptyEl.hidden = data.length !== 0;
+
+    for (const item of data) {
+      const li = document.createElement('li');
+      li.className = 'feedback-item';
+      li.innerHTML =
+        '<p class="feedback-item-message">' + escapeHtml(item.message) + '</p>' +
+        '<div class="feedback-item-meta">' +
+          '<span class="feedback-item-name">' + escapeHtml(item.name || '匿名') + '</span>' +
+          '<span class="feedback-item-date">' + formatDate(item.created_at) + '</span>' +
+        '</div>';
+      listEl.appendChild(li);
+    }
+  }
+
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
-    document.getElementById('feedback-thanks').hidden = false;
-    this.reset();
+    thanksEl.hidden = true;
+    errorEl.hidden = true;
+    submitBtn.disabled = true;
+
+    const name = form.name.value.trim();
+    const message = form.message.value.trim();
+
+    const { error } = await supabaseClient
+      .from('feedback')
+      .insert([{ name: name || null, message }]);
+
+    submitBtn.disabled = false;
+
+    if (error) {
+      console.error(error);
+      errorEl.hidden = false;
+      return;
+    }
+
+    thanksEl.hidden = false;
+    form.reset();
+    loadFeedbackList();
   });
+
+  loadFeedbackList();
 </script>
 
 </body>
