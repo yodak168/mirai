@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>大原駅の朝ごはん</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#F2F5F6; --surface:#FFFFFF; --ink:#14303D; --muted:#5A717C; --line:#D5DFE3;
+  --sea:#2A7A82; --sea-soft:#DCEDEE; --sun:#D9920F; --sun-soft:#FBEFD6; --dim:.38;
+  --display:"Kaisei Decol","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0D1B21; --surface:#15272F; --ink:#E4EDF0; --muted:#94AAB3; --line:#28404A;
+    --sea:#6CC3C9; --sea-soft:#17363B; --sun:#F2B544; --sun-soft:#3A2E14; --dim:.32;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0D1B21; --surface:#15272F; --ink:#E4EDF0; --muted:#94AAB3; --line:#28404A;
+  --sea:#6CC3C9; --sea-soft:#17363B; --sun:#F2B544; --sun-soft:#3A2E14; --dim:.32;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;padding-inline:16px;padding-block:32px 56px}
+.wrap{max-width:880px;margin:0 auto;display:grid;gap:40px}
+header{display:grid;gap:10px}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--sea);font-weight:700}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,6vw,46px);line-height:1.25;margin:0;text-wrap:balance}
+.lead{color:var(--muted);margin:0;max-width:40em}
+
+/* day switch */
+.switch{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.switch span{font-size:13px;color:var(--muted);margin-right:4px}
+.switch button{font:inherit;font-size:14px;font-weight:700;padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.switch button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.switch button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* market hero */
+.market{background:var(--sea-soft);border-radius:18px;padding:24px;display:grid;gap:18px;transition:opacity .25s}
+.market h2{font-family:var(--display);font-size:26px;margin:0;line-height:1.3}
+.market .tag{display:inline-block;font-size:12px;font-weight:700;background:var(--sea);color:var(--bg);padding:2px 10px;border-radius:999px;margin-bottom:6px}
+.facts{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px}
+.facts b{color:var(--sea)}
+.menu{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.menu li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 12px;font-size:14px}
+
+/* time bar */
+.clock{display:grid;gap:6px}
+.clock-label{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.bar{position:relative;height:34px;border-radius:8px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.bar .open{position:absolute;top:0;bottom:0;background:var(--sea);opacity:.9;display:flex;align-items:center;padding-left:10px;color:var(--bg);font-family:var(--mono);font-size:13px;white-space:nowrap}
+.bar .best{position:absolute;top:0;bottom:0;background:var(--sun)}
+.ticks{position:relative;height:18px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.ticks span{position:absolute;transform:translateX(-50%)}
+.ticks span:first-child{transform:none}
+.ticks span:last-child{transform:translateX(-100%)}
+.note{font-size:13px;color:var(--muted);margin:0}
+.note strong{color:var(--sun)}
+
+/* groups */
+section.group{display:grid;gap:14px;transition:opacity .25s}
+.group-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-bottom:1.5px solid var(--line);padding-bottom:8px}
+.group-head h2{font-family:var(--display);font-size:22px;margin:0}
+.group-head p{margin:0;font-size:13px;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.card h3{margin:0;font-size:17px;line-height:1.4}
+.card h3 small{display:block;font-size:12px;font-weight:400;color:var(--muted)}
+.card p{margin:0;font-size:14px;color:var(--muted)}
+.pill{justify-self:start;font-size:11px;font-weight:700;padding:1px 9px;border-radius:999px;background:var(--sun-soft);color:var(--ink);letter-spacing:.04em}
+
+.dimmed{opacity:var(--dim)}
+
+footer{font-size:12.5px;color:var(--muted);display:grid;gap:8px;border-top:1px solid var(--line);padding-top:18px}
+footer ul{margin:0;padding-left:1.2em;display:grid;gap:2px}
+footer a{color:var(--sea)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">JR外房線・いすみ鉄道　大原駅（千葉県いすみ市）</div>
+    <h1>大原駅の朝ごはん</h1>
+    <p class="lead">漁港の朝市、町のパン屋さん、朝から開いているチェーン店。行く曜日を選ぶと、その日のおすすめが目立つようになります。</p>
+    <div class="switch" role="group" aria-label="行く曜日">
+      <span>行く日：</span>
+      <button type="button" id="day-sun" data-day="sun" aria-pressed="true">日曜日</button>
+      <button type="button" id="day-week" data-day="week" aria-pressed="false">平日・土曜</button>
+    </div>
+  </header>
+
+  <section class="market" data-days="sun">
+    <div>
+      <span class="tag">日曜限定</span>
+      <h2>大原漁港「港の朝市」</h2>
+    </div>
+    <div class="facts">
+      <div><b>開催</b>　毎週日曜日</div>
+      <div><b>時間</b>　8:00〜12:30</div>
+      <div><b>場所</b>　大原漁港（駅から歩いて約20分）</div>
+    </div>
+    <ul class="menu" aria-label="朝市で食べられるもの">
+      <li>タコ飯</li><li>アジフライ</li><li>焼きそば</li><li>蟹汁</li><li>伊勢海老の丸焼き</li>
+    </ul>
+    <div class="clock" aria-label="朝市の開催時間">
+      <div class="clock-label">朝市の時間（6:00〜13:00）</div>
+      <div class="bar">
+        <!-- 6:00–13:00 = 420min. 8:00 → 120/420 = 28.57%, 12:30 → 390/420 = 92.86% -->
+        <div class="best" style="left:28.57%;width:14.29%"></div>
+        <div class="open" style="left:42.86%;width:50%">〜12:30</div>
+      </div>
+      <div class="ticks">
+        <span style="left:0">6:00</span>
+        <span style="left:28.57%">8:00</span>
+        <span style="left:57.14%">10:00</span>
+        <span style="left:85.71%">12:00</span>
+        <span style="left:100%">13:00</span>
+      </div>
+      <p class="note"><strong>■</strong> 8:00〜9:00ごろ：開始直後の時間帯。人気の屋台は早い時間に売り切れることがあります。</p>
+    </div>
+    <p class="note">荒天時・年末年始・秋の祭礼の時期はお休みになることがあります。中止は前日の正午までに<a href="https://minato-asaichi.com/" style="color:var(--sea)">公式サイト</a>で発表されます。</p>
+  </section>
+
+  <section class="group" data-days="sun week">
+    <div class="group-head">
+      <h2>パン屋さん</h2>
+      <p>買って海辺で食べる朝ごはん</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <span class="pill">早めに行く</span>
+        <h3>かめりあ<small>自然酵母の手作りパン</small></h3>
+        <p>人気があり、早い時間に売り切れることがあります。</p>
+      </article>
+      <article class="card">
+        <span class="pill">国産小麦</span>
+        <h3>麦香村（バッカソン）<small>国産小麦パンの店</small></h3>
+        <p>いすみ市役所大原庁舎の近くの住宅地。赤い看板が目印です。</p>
+      </article>
+      <article class="card">
+        <span class="pill">国道128号沿い</span>
+        <h3>BAKERY KONATE<small>白い小さなパン屋さん</small></h3>
+        <p>国道128号線沿い。朝からパンの香りがします。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="group" data-days="sun week">
+    <div class="group-head">
+      <h2>チェーン店</h2>
+      <p>曜日を問わず確実に開いている</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <span class="pill">モーニング</span>
+        <h3>ガスト 大原店<small>ファミリーレストラン</small></h3>
+        <p>目玉焼きセットや納豆など、定番のモーニングメニュー。</p>
+      </article>
+      <article class="card">
+        <span class="pill">朝マック</span>
+        <h3>マクドナルド<small>ファストフード</small></h3>
+        <p>朝マックのメニューで、手早く済ませたいときに。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="group" data-days="sun week">
+    <div class="group-head">
+      <h2>カフェ</h2>
+      <p>ゆっくり座って食べたいとき</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <span class="pill">朝の営業を確認</span>
+        <h3>Palmier（パルミエ）<small>カフェ</small></h3>
+        <p>地元の食材を使った料理とパンケーキ。朝から開いているかは事前に確認してください。</p>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    <p style="margin:0">パン屋・カフェの開店時間や定休日は変わることがあります。行く前に最新の情報を確認してください。</p>
+    <ul>
+      <li><a href="https://minato-asaichi.com/">港の朝市 公式サイト</a></li>
+      <li><a href="https://www.city.isumi.lg.jp/soshikikarasagasu/suisanshokoka/1_1/5688.html">いすみ市：大原漁港「港の朝市」</a></li>
+      <li><a href="https://tabelog.com/chiba/C12238/C35481/rstLst/cond06-00-00/">食べログ：いすみ市大原の朝食</a></li>
+      <li><a href="https://retty.me/area/PRE12/ARE465/SUB46503/STAN1873/PUR42/">Retty：大原駅の朝食・モーニング</a></li>
+      <li><a href="http://www.isumi-style.com/toku/028.html">いすみスタイル：麦香村</a> ／ <a href="http://www.isumi-style.com/toku/029.html">BAKERY KONATE</a></li>
+    </ul>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var buttons = document.querySelectorAll('.switch button');
+  function apply(day){
+    buttons.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.day === day)); });
+    document.querySelectorAll('[data-days]').forEach(function(el){
+      el.classList.toggle('dimmed', el.dataset.days.split(' ').indexOf(day) === -1);
+    });
+    try { localStorage.setItem('ohara-day', day); } catch(e){}
+  }
+  buttons.forEach(function(b){ b.addEventListener('click', function(){ apply(b.dataset.day); }); });
+  var saved = null;
+  try { saved = localStorage.getItem('ohara-day'); } catch(e){}
+  apply(saved === 'week' ? 'week' : 'sun');
+})();
+</script>
+</body>
+</html>
